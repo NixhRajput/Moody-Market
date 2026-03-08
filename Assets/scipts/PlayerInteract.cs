@@ -77,7 +77,8 @@ public class PlayerInteract : MonoBehaviour
             {
                 inventory.AddItem(cropName, 2);
                 inventory.AddItem(cropName + "Seed", 2);
-                harvestEffect.PlayHarvest(harvestedType, tilePos);
+                if (harvestEffect != null)
+                    harvestEffect.PlayHarvest(harvestedType, tilePos);
             }
         }
         else

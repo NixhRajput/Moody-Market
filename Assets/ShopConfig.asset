@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddeb1628b82b5784b8e629aee32a643c, type: 3}
+  m_Name: ShopConfig
+  m_EditorClassIdentifier: Assembly-CSharp::ShopConfig
+  wheatPrice: 5
+  tomatoPrice: 8
+  carrotPrice: 10
+  minAmount: 20
+  maxAmount: 30
+  minTime: 90
+  maxTime: 120
+  priceDropMultiplier: 0.7

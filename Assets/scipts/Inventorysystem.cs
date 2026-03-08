@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class InventorySlot
+{
+    public string itemName = "";
+    public SpriteRenderer iconRenderer;
+    public SpriteRenderer slotRenderer;
+}
+
 public class InventorySystem : MonoBehaviour
 {
     [Header("Slots (assign 10 in inspector)")]
@@ -45,14 +53,6 @@ public class InventorySystem : MonoBehaviour
         slots[activeSlot].slotRenderer.sprite = activeSlotSprite;
     }
 
-    [System.Serializable]
-    public class InventorySlot
-    {
-        public string itemName = "";
-        public SpriteRenderer iconRenderer;
-        public SpriteRenderer slotRenderer;
-    }
-
     public string GetActiveItemName() => slots[activeSlot].itemName;
 
     public void AddItem(string itemName, int count = 1)
@@ -69,6 +69,11 @@ public class InventorySystem : MonoBehaviour
         return itemCounts.ContainsKey(itemName) && itemCounts[itemName] > 0;
     }
 
+    public int GetItemCount(string itemName)
+    {
+        return itemCounts.ContainsKey(itemName) ? itemCounts[itemName] : 0;
+    }
+
     public void RemoveItem(string itemName, int count = 1)
     {
         if (!HasItem(itemName)) return;
@@ -83,8 +88,11 @@ public class InventorySystem : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].itemName = "";
-            slots[i].iconRenderer.sprite = null;
-            slots[i].iconRenderer.gameObject.SetActive(false);
+            if (slots[i].iconRenderer != null)
+            {
+                slots[i].iconRenderer.sprite = null;
+                slots[i].iconRenderer.gameObject.SetActive(false);
+            }
         }
 
         int slotIndex = 0;
@@ -95,7 +103,7 @@ public class InventorySystem : MonoBehaviour
 
             slots[slotIndex].itemName = kv.Key;
             Sprite icon = GetIconForItem(kv.Key);
-            if (icon != null)
+            if (icon != null && slots[slotIndex].iconRenderer != null)
             {
                 slots[slotIndex].iconRenderer.sprite = icon;
                 slots[slotIndex].iconRenderer.gameObject.SetActive(true);
@@ -103,7 +111,8 @@ public class InventorySystem : MonoBehaviour
             slotIndex++;
         }
 
-        slots[activeSlot].slotRenderer.sprite = activeSlotSprite;
+        if (slots[activeSlot].slotRenderer != null)
+            slots[activeSlot].slotRenderer.sprite = activeSlotSprite;
     }
 
     Sprite GetIconForItem(string itemName)
