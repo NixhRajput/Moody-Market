@@ -24,7 +24,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(0))
             TryInteract();
     }
 
@@ -32,18 +32,11 @@ public class PlayerInteract : MonoBehaviour
     {
         CropTile closest = GetClosestTile();
 
-        if (closest == null)
-        {
-            Debug.Log("No tile in range");
-            return;
-        }
+        if (closest == null) return;
 
         if (closest.state == TileState.Unplowed)
         {
-            if (inventory.HasItem("Hoe"))
-                closest.Plow();
-            else
-                Debug.Log("Need a Hoe!");
+            closest.Plow();
         }
         else if (closest.state == TileState.Plowed)
         {
@@ -71,8 +64,8 @@ public class PlayerInteract : MonoBehaviour
         {
             CropType harvestedType = closest.cropType;
             Vector3 tilePos = closest.transform.position;
-
             string cropName = closest.Harvest();
+
             if (cropName != null)
             {
                 inventory.AddItem(cropName, 2);

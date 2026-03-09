@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 [System.Serializable]
 public class InventorySlot
@@ -7,6 +8,7 @@ public class InventorySlot
     public string itemName = "";
     public SpriteRenderer iconRenderer;
     public SpriteRenderer slotRenderer;
+    public TextMeshPro amountText;
 }
 
 public class InventorySystem : MonoBehaviour
@@ -25,14 +27,15 @@ public class InventorySystem : MonoBehaviour
     public Sprite wheatSeedIcon;
 
     private int activeSlot = 0;
+
     private Dictionary<string, int> itemCounts = new Dictionary<string, int>();
+    private Dictionary<string, int> itemSlotIndex = new Dictionary<string, int>();
 
     void Start()
     {
-        AddItem("Hoe");
-        AddItem("CarrotSeed", 3);
-        AddItem("TomatoSeed", 3);
-        AddItem("WheatSeed", 3);
+        AddItem("CarrotSeed", 3, 0);
+        AddItem("TomatoSeed", 3, 1);
+        AddItem("WheatSeed", 3, 2);
         SetActiveSlot(0);
     }
 
@@ -43,22 +46,48 @@ public class InventorySystem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
                 SetActiveSlot(i);
         }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll > 0f) SetActiveSlot((activeSlot - 1 + slots.Length) % slots.Length);
+        if (scroll < 0f) SetActiveSlot((activeSlot + 1) % slots.Length);
     }
 
     public void SetActiveSlot(int index)
     {
         if (index < 0 || index >= slots.Length) return;
-        slots[activeSlot].slotRenderer.sprite = normalSlotSprite;
+        if (slots[activeSlot].slotRenderer != null)
+            slots[activeSlot].slotRenderer.sprite = normalSlotSprite;
         activeSlot = index;
-        slots[activeSlot].slotRenderer.sprite = activeSlotSprite;
+        if (slots[activeSlot].slotRenderer != null)
+            slots[activeSlot].slotRenderer.sprite = activeSlotSprite;
     }
 
     public string GetActiveItemName() => slots[activeSlot].itemName;
 
-    public void AddItem(string itemName, int count = 1)
+    public void AddItem(string itemName, int count = 1, int fixedSlot = -1)
     {
-        if (itemCounts.ContainsKey(itemName)) itemCounts[itemName] += count;
-        else itemCounts[itemName] = count;
+        if (itemCounts.ContainsKey(itemName))
+        {
+            itemCounts[itemName] += count;
+        }
+        else
+        {
+            itemCounts[itemName] = count;
+
+            if (fixedSlot >= 0)
+                itemSlotIndex[itemName] = fixedSlot;
+            else
+            {
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (slots[i].itemName == "")
+                    {
+                        itemSlotIndex[itemName] = i;
+                        break;
+                    }
+                }
+            }
+        }
 
         RefreshSlots();
         Debug.Log($"[Inventory] +{count} {itemName}");
@@ -78,7 +107,11 @@ public class InventorySystem : MonoBehaviour
     {
         if (!HasItem(itemName)) return;
         itemCounts[itemName] -= count;
-        if (itemCounts[itemName] <= 0) itemCounts.Remove(itemName);
+        if (itemCounts[itemName] <= 0)
+        {
+            itemCounts.Remove(itemName);
+            itemSlotIndex.Remove(itemName);
+        }
         RefreshSlots();
         Debug.Log($"[Inventory] -{count} {itemName}");
     }
@@ -93,22 +126,29 @@ public class InventorySystem : MonoBehaviour
                 slots[i].iconRenderer.sprite = null;
                 slots[i].iconRenderer.gameObject.SetActive(false);
             }
+            if (slots[i].amountText != null)
+                slots[i].amountText.text = "";
         }
 
-        int slotIndex = 0;
         foreach (var kv in itemCounts)
         {
-            if (slotIndex >= slots.Length) break;
             if (kv.Value <= 0) continue;
+            if (!itemSlotIndex.ContainsKey(kv.Key)) continue;
 
-            slots[slotIndex].itemName = kv.Key;
+            int idx = itemSlotIndex[kv.Key];
+            if (idx >= slots.Length) continue;
+
+            slots[idx].itemName = kv.Key;
             Sprite icon = GetIconForItem(kv.Key);
-            if (icon != null && slots[slotIndex].iconRenderer != null)
+
+            if (icon != null && slots[idx].iconRenderer != null)
             {
-                slots[slotIndex].iconRenderer.sprite = icon;
-                slots[slotIndex].iconRenderer.gameObject.SetActive(true);
+                slots[idx].iconRenderer.sprite = icon;
+                slots[idx].iconRenderer.gameObject.SetActive(true);
             }
-            slotIndex++;
+
+            if (slots[idx].amountText != null)
+                slots[idx].amountText.text = kv.Value > 1 ? kv.Value.ToString() : "";
         }
 
         if (slots[activeSlot].slotRenderer != null)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class ChunkUnlock : MonoBehaviour
 {
@@ -6,6 +7,10 @@ public class ChunkUnlock : MonoBehaviour
     public GameObject borderObject;
 
     public float interactRange = 1f;
+
+    [Header("Price popup (TextMeshPro on a child object)")]
+    public TextMeshPro pricePopup;
+
     private Transform player;
 
     void Start()
@@ -14,6 +19,9 @@ public class ChunkUnlock : MonoBehaviour
 
         if (borderObject == null)
             borderObject = transform.parent.parent.gameObject;
+
+        if (pricePopup != null)
+            pricePopup.gameObject.SetActive(false);
     }
 
     void Update()
@@ -24,7 +32,16 @@ public class ChunkUnlock : MonoBehaviour
         {
             int price = ChunkManager.Instance.GetNextPrice();
             int coins = ShopManager.Instance.GetCoins();
-            Debug.Log($"[Chunk] Unlock cost: {price} coins | You have: {coins} coins");
+
+            if (pricePopup != null)
+            {
+                pricePopup.gameObject.SetActive(true);
+                pricePopup.text = coins >= price
+                    ? $"<color=green>{price} rs.</color>"
+                    : $"<color=red>{price} rs.</color>";
+            }
+
+            Debug.Log($"[Chunk] Unlock cost: {price} | You have: {coins}");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -34,9 +51,14 @@ public class ChunkUnlock : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"[Chunk] Not enough coins! Need {price}, have {coins}");
+                    Debug.Log($"[Chunk] Not enough! Need {price}, have {coins}");
                 }
             }
+        }
+        else
+        {
+            if (pricePopup != null)
+                pricePopup.gameObject.SetActive(false);
         }
     }
 
