@@ -35,7 +35,12 @@ public class ShopUI : MonoBehaviour
         }
 
         if (coinsText != null)
-            coinsText.text = $"{coins}";
+        {
+            int remaining = customer.requestedAmount - customer.amountFulfilled;
+            int priceEach = customer.GetCurrentPrice(config);
+            int potential = remaining * priceEach;
+            coinsText.text = $"{potential}";
+        }
     }
 
     Sprite GetIcon(string cropName)

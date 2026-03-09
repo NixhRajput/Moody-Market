@@ -96,11 +96,13 @@ public class ShopManager : MonoBehaviour
 
     void AdvanceQueue()
     {
+        queueSlots[0].Deactivate();
+
         for (int i = 0; i < queueSlots.Length - 1; i++)
-            queueSlots[i].CopyFrom(queueSlots[i + 1]);
+            queueSlots[i].Activate(config);
 
         queueSlots[queueSlots.Length - 1].Activate(config);
-        Debug.Log("[Shop] Queue advanced.");
+        Debug.Log("[Shop] Queue advanced, fresh customers.");
     }
 
     public void RefreshUI()
@@ -112,6 +114,12 @@ public class ShopManager : MonoBehaviour
     }
 
     public int GetCoins() => coins;
+
+    public void SpendCoins(int amount)
+    {
+        coins -= amount;
+        Debug.Log($"[Shop] Spent {amount} coins. Remaining: {coins}");
+    }
 
     void OnDrawGizmosSelected()
     {

@@ -65,6 +65,8 @@ public class Customer : MonoBehaviour
     {
         active = false;
         state = CustomerState.Gone;
+        timeLeft = 0f;
+        requestedCrop = "";
         if (sr == null) sr = GetComponentInChildren<SpriteRenderer>();
         if (sr != null) sr.sprite = null;
     }
