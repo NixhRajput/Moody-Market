@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ShopConfig
   m_EditorClassIdentifier: Assembly-CSharp::ShopConfig
   wheatPrice: 5
-  tomatoPrice: 8
-  carrotPrice: 10
-  minAmount: 20
-  maxAmount: 30
-  minTime: 90
-  maxTime: 120
-  priceDropMultiplier: 0.7
+  tomatoPrice: 12
+  carrotPrice: 9
+  minAmount: 10
+  maxAmount: 15
+  minTime: 70
+  maxTime: 90
+  priceDropMultiplier: 0.6

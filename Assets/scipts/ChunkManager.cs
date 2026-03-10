@@ -14,9 +14,12 @@ public class ChunkManager : MonoBehaviour
         Instance = this;
     }
 
+    private int[] chunkPrices = { 150, 400, 900, 1800 };
+
     public int GetNextPrice()
     {
-        return basePrice * (int)Mathf.Pow(2, chunksUnlocked);
+        if (chunksUnlocked >= chunkPrices.Length) return chunkPrices[chunkPrices.Length - 1];
+        return chunkPrices[chunksUnlocked];
     }
 
     public bool CanAfford()

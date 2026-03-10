@@ -156,9 +156,20 @@ MonoBehaviour:
   - {fileID: -6958536485321237839, guid: b02212952f905234785afc0f536ba1db, type: 3}
   - {fileID: -6006418777449013891, guid: b02212952f905234785afc0f536ba1db, type: 3}
   - {fileID: -1038009630, guid: b02212952f905234785afc0f536ba1db, type: 3}
+  harvestAnimator: {fileID: 0}
+  carrotAnimTrigger: HarvestCarrot
+  tomatoAnimTrigger: HarvestTomato
+  wheatAnimTrigger: HarvestWheat
+  floatingIconPrefab: {fileID: 0}
+  carrotIcon: {fileID: 0}
+  tomatoIcon: {fileID: 0}
+  wheatIcon: {fileID: 0}
+  floatOffset: {x: 0, y: 1, z: 0}
   state: 0
   cropType: 0
-  growInterval: 2
+  wheatGrowInterval: 15
+  carrotGrowInterval: 20
+  tomatoGrowInterval: 25
 --- !u!1 &6555961669564732716
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,6 +78,7 @@ public class ShopManager : MonoBehaviour
         int earned = toSell * priceEach;
         coins += earned;
         Debug.Log($"[Shop] Sold {toSell} {crop} for {earned} coins! ({front.amountFulfilled}/{front.requestedAmount}) Total: {coins}");
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayGain();
 
         if (front.IsFullyFulfilled())
         {
@@ -118,6 +119,7 @@ public class ShopManager : MonoBehaviour
     public void SpendCoins(int amount)
     {
         coins -= amount;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayGain();
         Debug.Log($"[Shop] Spent {amount} coins. Remaining: {coins}");
     }
 

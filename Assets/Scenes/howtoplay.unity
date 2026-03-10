@@ -250,7 +250,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: hell
+  m_text: 'Click esc to back to menu.
+
+    You are a farmer, who farms and sell to
+    customers.
+
+    Fulfil order before customer lower the prices.
+
+    Use W A S
+    D to move, Click on un-ploughed land to make it ready for crop. Scroll to chnage
+    item in hand. click to plant, wait and click to harvest. TO sell click near customer
+    at the shop. To buy more farming chunks Click E.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: deeec94d1a96d0d41a79a0a6821438f2, type: 2}
   m_sharedMaterial: {fileID: 783261149228295207, guid: deeec94d1a96d0d41a79a0a6821438f2, type: 2}
@@ -277,8 +287,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

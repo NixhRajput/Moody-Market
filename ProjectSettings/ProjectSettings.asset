@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: Moody_Market
-  defaultCursor: {fileID: 2800000, guid: 755046a6e87e01347a528d3b288b993c, type: 3}
+  defaultCursor: {fileID: 2800000, guid: a8bb4bda47e4fd14cbbd0e606637491d, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

@@ -64,7 +64,7 @@ public class PlayerInteract : MonoBehaviour
         {
             CropType harvestedType = closest.cropType;
             Vector3 tilePos = closest.transform.position;
-            string cropName = closest.Harvest();
+            var (cropName, seedName, amount) = closest.Harvest();
 
             if (cropName != null)
             {
