@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class MenuButton : MonoBehaviour
 {
-    public Sprite normalSprite;
     public Sprite pressedSprite;
     public string buttonId;
     public SpriteRenderer buttonSpriteRenderer;
 
-    void Awake()
+    private Sprite normalSprite;
+
+    void Start()
     {
         if (buttonSpriteRenderer == null)
-            buttonSpriteRenderer = GetComponent<SpriteRenderer>();
+            buttonSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (buttonSpriteRenderer != null)
+            normalSprite = buttonSpriteRenderer.sprite;
     }
 
     void OnMouseDown()
@@ -21,9 +25,9 @@ public class MenuButton : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (normalSprite != null)
-            buttonSpriteRenderer.sprite = normalSprite;
-
+        buttonSpriteRenderer.sprite = normalSprite;
+        Debug.Log($"[Button] AudioManager null? {AudioManager.Instance == null}");
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayButtonBeep();
         MenuManager.Instance.OnButtonClicked(buttonId);
     }
 }

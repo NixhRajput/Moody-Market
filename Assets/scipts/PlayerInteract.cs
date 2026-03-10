@@ -72,6 +72,8 @@ public class PlayerInteract : MonoBehaviour
                 inventory.AddItem(cropName + "Seed", 2);
                 if (harvestEffect != null)
                     harvestEffect.PlayHarvest(harvestedType, tilePos);
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayHarvest();
             }
         }
         else
